@@ -191,7 +191,7 @@ def timedExecute(link, driver):
     print("7: 10:30am to 11am | 8: 11am to 11:30am | 9: 11:30am to 12pm | 10: 12pm to 12:30pm | 11: 12:30pm to 1pm | 12: 1pm to 1:30pm")
     print("13: 1:30pm to 2pm | 14: 2pm to 2:30pm | 15: 2:30pm to 3pm | 16: 3pm to 3:30pm | 17: 3:30pm to 4pm")
 
-    print("Special Codes: 30: 9am to 3pm | 40: 10am to 4pm")
+    print("Special Codes: 30: 9am to 12pm (180 minutes) | 31: 12pm to 3pm (180 minutes) | 40: 10am to 1pm (180 minutes) | 41: 1pm to 4pm (180 minutes)")
     start = 0
     end = 0
 
@@ -199,9 +199,15 @@ def timedExecute(link, driver):
 
     if start == 30:
         start = 4
+        end = 9
+    elif start == 31:
+        start = 10
         end = 15
     elif start == 40:
         start = 6
+        end = 11
+    elif start == 41:
+        start = 11
         end = 17
 
     else:
@@ -299,31 +305,10 @@ def main():
     current_directory = os.path.dirname(os.path.abspath(__file__))
     filename = 'messages.html'
     file_path = os.path.join(current_directory, filename)
-
-    '''load_config = input("Do you want to load the conifg file?: (Y/N)")
-
-    if load_config.lower == "y":
-        # Initialize the config parser
-        config = configparser.ConfigParser()
-
-        # Read the INI file
-        config.read("config.ini")
-
-        # Access the data
-        username = config["User"]["username"]         # Load string (name)
-        password = config["User"]["password"]         # Load string (name)
-        target_day = int(config["User"]["day"])      # Load integer (age)
-        target_month = int(config["User"]["month"])
-        target_year = int(config["User"]["year"])
-        target_date = int(config["User"]["date"])
-        start = int(config["User"]["start"])
-        end = int(config["User"]["end"])
-        target_hour = int(config["User"]["hour"])
-        target_minute = int(config["User"]["minute"])
-        is_Config_Loaded = True'''
     
     chrome_options = Options()
     chrome_options.add_argument("--log-level=3")
+    chrome_options.add_argument("--headless")
 
     driver = webdriver.Chrome(options=chrome_options)
     driver.get(f"file:///{file_path}")
